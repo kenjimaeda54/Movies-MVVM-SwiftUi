@@ -11,14 +11,42 @@ enum  NetWorkError: Error {
 	case badUrl
 	case badDecoding
 	case noData
-	case error
 }
 
 
 class HttpClient {
 	
 	
-	func  getMovies(search: String,completion: @escaping(Result<[MoviesModel]?,NetWorkError>) -> Void ) {
+	func getDetailsMovieByImdbId(imdbId: String, completion: @escaping(Result<MovieDetailsModel,NetWorkError>) -> Void) {
+		
+		guard let url = URL.fromMovieDetailsbyImdbId(imdbId: imdbId) else {
+			return completion(.failure(.badUrl))
+		}
+		
+		URLSession.shared.dataTask(with: url) { data, url, error in
+			
+			guard let data = data, error != nil else {
+				return completion(.failure(.noData))
+			}
+			
+			do {
+				let detailsMovie = try JSONDecoder().decode(MovieDetailsModel.self, from: data)
+				completion(.success(detailsMovie))
+				
+			}catch {
+				print(error)
+				completion(.failure(.badDecoding))
+				
+			}
+			
+			
+		}.resume()
+		
+		
+	}
+	
+	
+	func  getMoviesByName(search: String,completion: @escaping(Result<[MoviesModel]?,NetWorkError>) -> Void ) {
 		guard	let url = URL.fromMovieByName(name: search) else {
 			return completion(.failure(.badUrl))
 		}
@@ -37,6 +65,8 @@ class HttpClient {
 				
 			}catch {
 				print(error)
+				completion(.failure(.badDecoding))
+				
 				
 			}
 			

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MovieViewListModel: ObservableObject {
+class MovieViewListModel: ViewModelBase {
 	
 	//com @published fico observando a variavel se alterar
 	// altera a view
@@ -16,17 +16,29 @@ class MovieViewListModel: ObservableObject {
 	
 	func getMoviesByName(_ name: String) {
 		
-		httpClient.getMovies(search: name) { result in
+		if(name.isEmpty) {
+			return
+		}
+		
+		self.stateLoading = .loading
+		
+		httpClient.getMoviesByName(search:  String.removeWhiteSpaces(name) ) { result in
 			switch result {
 				case .failure(let error):
 					print(error)
+					
+					DispatchQueue.main.async {
+						self.stateLoading = .failed
+					}
+					
+					
 					
 				case .success(let movies):
 					if let movies = movies {
 						
 						// por estar lidando com api e recomendado usar dispatchqueue
 						DispatchQueue.main.async {
-							
+							self.stateLoading = .sucess
 							self.moviesView = movies.map(MovieViewModel.init)
 							
 						}
