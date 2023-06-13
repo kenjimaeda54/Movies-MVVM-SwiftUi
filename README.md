@@ -286,6 +286,37 @@ TextField("Search...", text: $searchMovie,onCommit: handleCommit)
 
 ```
 
+##
+- Reforcei alguns conceitos como extension.
+- Com ele conseguimos extender as propriedades nativas do swift para algo customizado
+
+
+
+
+`` swift
+// extension
+extension URL {
+	
+	static func fromMovieDetailsbyImdbId(imdbId: String) -> URL? {
+		return URL(string: "https://www.omdbapi.com/?i=\(imdbId)&apikey=\(Constants.apiKey)")
+	}
+	
+	static func fromMovieByName(name: String) -> URL? {
+		return URL(string: "https://www.omdbapi.com/?apikey=\(Constants.apiKey)&s=\(name)")
+	}
+}
+
+// usando extension
+
+guard	let url = URL.fromMovieByName(name: search) else {
+			return completion(.failure(.badUrl))
+ }
+	
+
+
+```
+
+
 
 
 
