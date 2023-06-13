@@ -25,7 +25,7 @@ class HttpClient {
 		
 		URLSession.shared.dataTask(with: url) { data, url, error in
 			
-			guard let data = data, error != nil else {
+			guard let data = data, error == nil else {
 				return completion(.failure(.noData))
 			}
 			

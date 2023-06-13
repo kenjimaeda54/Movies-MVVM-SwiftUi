@@ -32,7 +32,7 @@ struct MoviesScreen: View {
 				// mudar o botão de retorno do keyboard
 				TextField("Search...", text: $searchMovie,onCommit: handleCommit)
 					.padding(EdgeInsets.init(top: 10, leading: 10, bottom: 10, trailing: 10))
-					.textFieldStyle(CustomTextFieldStyle())
+					.textFieldStyle(CustomTextFieldStyle()) //usando o modificador
 					.submitLabel(.go)
 				
 				
@@ -65,19 +65,3 @@ struct MoviesScreen_Previews: PreviewProvider {
 }
 
 
-struct CustomTextFieldStyle: TextFieldStyle {
-	
-	public func _body(configuration:  TextField<Self._Label>) -> some View {
-		configuration
-			.padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
-			.background(
-				RoundedRectangle(cornerRadius: 5)
-					.stroke(
-						lineWidth: 1)
-					.foregroundColor(Color("blackLigth"))
-				
-			)
-	}
-	
-	
-}
