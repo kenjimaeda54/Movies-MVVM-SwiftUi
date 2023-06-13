@@ -60,6 +60,7 @@ Pequena aplicação consumindo uma [API](https://www.omdbapi.com/) de movies, pa
 
 ##
 - Abaixo um uso de uma View Model, primerio implementei abstração para o model que precisava para implementar a View,depois fiz a implementação que de fato a view ira usar
+- Para mudar o botão do keyboard usamos .submitLabel(.go) no textField
 
 
 ```swift
@@ -248,6 +249,43 @@ struct MoviesScreen_Previews: PreviewProvider {
 
 
 ```
+
+##
+- Para aumentar o padding interno do TextField usei um modificador
+
+
+
+
+```swfit
+//Modiefes
+struct CustomTextFieldStyle: TextFieldStyle {
+	
+	public func _body(configuration:  TextField<Self._Label>) -> some View {
+		configuration
+			.padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
+			.background(
+				RoundedRectangle(cornerRadius: 5)
+					.stroke(
+						lineWidth: 1)
+					.foregroundColor(Color("blackLigth"))
+				
+			)
+	}
+	
+	
+}
+
+//Screens
+TextField("Search...", text: $searchMovie,onCommit: handleCommit)
+					.padding(EdgeInsets.init(top: 10, leading: 10, bottom: 10, trailing: 10))
+					.textFieldStyle(CustomTextFieldStyle()) //usando o modificador
+					.submitLabel(.go)
+
+
+
+
+```
+
 
 
 
