@@ -256,7 +256,7 @@ struct MoviesScreen_Previews: PreviewProvider {
 
 
 
-```swfit
+``` swift
 //Modiefes
 struct CustomTextFieldStyle: TextFieldStyle {
 	
